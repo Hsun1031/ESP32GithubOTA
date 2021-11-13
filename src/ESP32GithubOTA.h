@@ -17,64 +17,29 @@
     #include <update.h>
 
     class ESP32GithubOTA {
-    private:
-        uint8_t errorCode;
+        private:
+            uint8_t errorCode;
 
-        /**
-         * @brief 
-         * 
-         * @param data WiFiClient *
-         * @param size http.getSize()
-         * @param command U_FLASH or U_SPIFFS.
-         * @return true  Update Susses.
-         * @return false Update or Http client faild.
-         */
-        bool runUpdate(Stream& data, size_t size, int command);
+        private:    
+            bool runUpdate(Stream& data, size_t size, int command);
+            bool clientGithub(const char *url, const char *token, int command);
+        
+        public:
+            ESP32GithubOTA ();
+            
+            bool spiffsOTA  (const char *spiffsUrl, const char *token);
+            bool firmwareOTA(const char *firmwareUrl, const char *token);
 
-        /**
-         * @brief 
-         * 
-         * @param url Github url https://raw.githubusercontent.com/<Your name>/<Your repo>/<Your branch>/<Your file path>/<Your file name>.
-         * @param token Github Token.
-         * @param command U_FLASH or U_SPIFFS.
-         * @return true 
-         * @return false 
-         */
-        bool clientGithub(const char *url, const char *token, int command);
-       
-    public:
-        ESP32GithubOTA ();
-
-        /**
-         * @brief Update spiffs data.
-         * 
-         * @param spiffsUrl Github url https://raw.githubusercontent.com/<Your name>/<Your repo>/<Your branch>/<Your file path>/<Your file name>.
-         * @param token Github Token.
-         * @return true  Update Susses.
-         * @return false Update or Http client faild. 
-         */
-        bool spiffsOTA  (const char *spiffsUrl, const char *token);
-
-        /**
-         * @brief Update ESP32 firmware.
-         * 
-         * @param firmwareUrl Github url https://raw.githubusercontent.com/<Your name>/<Your repo>/<Your branch>/<Your file path>/<Your file name>.
-         * @param token Github Token.
-         * @return true  Update Susses.
-         * @return false Update or Http client faild.
-         */
-        bool firmwareOTA(const char *firmwareUrl, const char *token);
-
-        /**
-         * @brief Get the Error Code 
-         * 
-         * @return 0 -> OK
-         * @return 1 -> update begin error
-         * @return 2 -> update writeStream error
-         * @return 3 -> update end error.
-         * @return 404 -> Url error or token
-         */
-        uint8_t getErrorCode(){ return errorCode; };
+            /**
+             * @brief Get the Error Code 
+             * 
+             * @return 0 -> OK
+             * @return 1 -> update begin error
+             * @return 2 -> update writeStream error
+             * @return 3 -> update end error.
+             * @return 404 -> Url error or token
+             */
+            uint8_t getErrorCode(){ return errorCode; };
     };
 
 #endif
