@@ -6,6 +6,9 @@
 #define SSID   SSID
 #define PASSWD PASSWD
 
+#define SPIFFS_BIN_URL SPIFFS_BIN_URL
+#define GITHUB_TOKEN   GITHUB_TOKEN
+
 ESP32GithubOTA githubOTA;
 
 void openFile();
@@ -27,14 +30,23 @@ void setup() {
     Serial.printf("ESP32 IP: %s\n", WiFi.localIP().toString().c_str());
 
     openFile();
-    githubOTA.spiffsOTA("https://raw.githubusercontent.com/<Your user name>/<Your repo name>/<Your branch>/< Path >/< of >/< file >", "<Your Token>");
+
+    Serial.printf("Start SPIFFS OTA\n");
+    if(!githubOTA.spiffsOTA(SPIFFS_BIN_URL, GITHUB_TOKEN)) {
+        Serial.printf("Error Code: %d\n", githubOTA.getErrorCode());
+    }
 }
 
 void loop() {
-    
+
 }
 
 void openFile() {
+    if(!SPIFFS.begin(true)){
+        Serial.println("An Error has occurred while mounting SPIFFS");
+        for(;;);
+    }
+
     File file = SPIFFS.open("/data.txt");
     if(file){
         Serial.printf("File Content:\n");

@@ -5,11 +5,11 @@ ESP32GithubOTA::ESP32GithubOTA () {
 }
 
 bool ESP32GithubOTA::spiffsOTA  (const char *spiffsUrl, const char *token) {
-    clientGithub(spiffsUrl, token, U_SPIFFS);
+    return clientGithub(spiffsUrl, token, U_SPIFFS);
 }
 
 bool ESP32GithubOTA::firmwareOTA(const char *firmwareUrl, const char *token) {
-    clientGithub(firmwareUrl, token, U_FLASH);
+    return clientGithub(firmwareUrl, token, U_FLASH);
 }
 
 bool ESP32GithubOTA::clientGithub(const char *url, const char *token, int command) {
