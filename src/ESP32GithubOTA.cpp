@@ -14,7 +14,7 @@ ESP32GithubOTA::ESP32GithubOTA () {
  * @param spiffsUrl Github url https://raw.githubusercontent.com/<Your name>/<Your repo>/<Your branch>/<Your file path>/<Your file name>.
  * @param token Github Token.
  * @return true  Update Susses.
- * @return false Update or Http client faild. 
+ * @return false Update or Http client failed. 
  */
 bool ESP32GithubOTA::spiffsOTA  (const char *spiffsUrl, const char *token) {
     return clientGithub(spiffsUrl, token, U_SPIFFS);
@@ -26,7 +26,7 @@ bool ESP32GithubOTA::spiffsOTA  (const char *spiffsUrl, const char *token) {
  * @param firmwareUrl Github url https://raw.githubusercontent.com/<Your name>/<Your repo>/<Your branch>/<Your file path>/<Your file name>.
  * @param token Github Token.
  * @return true  Update Susses.
- * @return false Update or Http client faild.
+ * @return false Update or Http client failed.
  */
 bool ESP32GithubOTA::firmwareOTA(const char *firmwareUrl, const char *token) {
     return clientGithub(firmwareUrl, token, U_FLASH);
@@ -76,7 +76,7 @@ bool ESP32GithubOTA::clientGithub(const char *url, const char *token, int comman
  * @param size http.getSize()
  * @param command U_FLASH or U_SPIFFS.
  * @return true  Update Susses.
- * @return false Update or Http client faild.
+ * @return false Update or Http client failed.
  */
 bool ESP32GithubOTA::runUpdate(Stream& data, size_t size, int command) {
     if(!Update.begin(size, command)) {

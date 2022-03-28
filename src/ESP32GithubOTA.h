@@ -14,7 +14,7 @@
     #include <Arduino.h>
     #include <WiFi.h>
     #include <HTTPClient.h>
-    #include <update.h>
+    #include <Update.h>
 
     class ESP32GithubOTA {
         private:
