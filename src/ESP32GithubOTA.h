@@ -2,8 +2,8 @@
  * @file ESP32GithubOTA.h
  * @author Hsun (hsun1031@outlook.com)
  * @brief 
- * @version 2.0
- * @date 2022-04-10
+ * @version 2.2
+ * @date 2022-04-13
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -41,9 +41,9 @@
             ESP32PrivateGithubOTA();
             ESP32PrivateGithubOTA(char *token);
             
-            int spiffsOTA  (const char *spiffsUrl,   bool isPublic = 0);
+            int spiffsOTA  (const char *spiffsUrl);
             int spiffsOTA  (const char *spiffsUrl,   const char *token);
-            int firmwareOTA(const char *firmwareUrl, bool isPublic = 0);
+            int firmwareOTA(const char *firmwareUrl);
             int firmwareOTA(const char *firmwareUrl, const char *token);
     };
 

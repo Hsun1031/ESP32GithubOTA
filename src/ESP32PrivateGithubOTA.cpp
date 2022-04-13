@@ -25,8 +25,8 @@ ESP32PrivateGithubOTA::ESP32PrivateGithubOTA(char *token) {
  * @return true  Update Susses.
  * @return false Update or Http client failed. 
  */
-int ESP32PrivateGithubOTA::spiffsOTA(const char *spiffsUrl, bool isPublic) {
-    if(_token == NULL || isPublic) 
+int ESP32PrivateGithubOTA::spiffsOTA(const char *spiffsUrl) {
+    if(_token == NULL) 
         return clientGithub(spiffsUrl, U_SPIFFS);
     return clientGithub(spiffsUrl, _token, U_SPIFFS);
 }
@@ -63,8 +63,8 @@ int ESP32PrivateGithubOTA::firmwareOTA(const char *firmwareUrl, const char *toke
  * @return true  Update Susses.
  * @return false Update or Http client failed.
  */
-int ESP32PrivateGithubOTA::firmwareOTA(const char *firmwareUrl, bool isPublic) {
-    if(_token == NULL || isPublic) 
+int ESP32PrivateGithubOTA::firmwareOTA(const char *firmwareUrl) {
+    if(_token == NULL)
         return clientGithub(firmwareUrl, U_FLASH);
     return clientGithub(firmwareUrl, _token, U_FLASH);
 }
