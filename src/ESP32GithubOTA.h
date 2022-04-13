@@ -18,9 +18,11 @@
 
     class ESP32GithubOTA {
         public:    
-            int runUpdate   (Stream& data, size_t size, int command);
-            int clientGithub(const char *url, int command);
-            int clientGithub(const char *url, const char *token, int command);
+            int runUpdate    (Stream& data, size_t size, int command);
+            int clientGithub (const char *url, int command);
+            int clientGithub (const char *url, const char *token, int command);
+            int httpGet      (HTTPClient *http, int command);
+            int httpGetStream(HTTPClient *http, int command);
     };
 
     class ESP32PublicGithubOTA:ESP32GithubOTA {

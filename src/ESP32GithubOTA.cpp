@@ -8,25 +8,10 @@
  * @return int 
  */
 int ESP32GithubOTA::clientGithub(const char *url, int command) {
-    Serial.printf("no token\n");
     HTTPClient http;
     http.begin(url);
 
-    int httpCode = http.GET();
-    if (httpCode > 0) {
-        if (httpCode == HTTP_CODE_OK) {
-            WiFiClient *StreamPtr = http.getStreamPtr();
-            if(runUpdate(*StreamPtr, http.getSize(), command))
-                ESP.restart();
-        } else {
-            return httpCode;
-        }
-    } else {
-        return httpCode;
-    }
-    
-    http.end();
-    return 0;
+    return httpGet(&http, command);
 }
 
 /**
@@ -38,31 +23,46 @@ int ESP32GithubOTA::clientGithub(const char *url, int command) {
  * @return int 
  */
 int ESP32GithubOTA::clientGithub(const char *url, const char *token, int command) {
-    Serial.printf("token\n");
     uint16_t num = 0;
     while(*(token + num++) != 0);
-    char str[num + 6] = "token ";
-    char *authorization = strcat(str, token);
+    char *authorization = NULL;
+    authorization = (char *)malloc((6 + num) * sizeof(char));
+    if(authorization == NULL) 
+        return -1;
     
+    *(authorization + 0) = 't';
+    *(authorization + 1) = 'o';
+    *(authorization + 2) = 'k';
+    *(authorization + 3) = 'e';
+    *(authorization + 4) = 'n';
+    *(authorization + 5) = ' ';
+
+    for(size_t i = 0; i < num; i++) {
+        *(authorization + i + 6) = *(token + i);
+    }
+
     HTTPClient http;
     http.begin(url);
     http.addHeader("Authorization", authorization);
-
-    int httpCode = http.GET();
-    if (httpCode > 0) {
-        if (httpCode == HTTP_CODE_OK) {
-            WiFiClient *StreamPtr = http.getStreamPtr();
-            if(runUpdate(*StreamPtr, http.getSize(), command)) 
-                ESP.restart();
-        } else {
-            return httpCode;
-        }
-    } else {
-        return httpCode;
-    }
     
-    http.end();
-    return 0;
+    return httpGet(&http, command);
+}
+
+int ESP32GithubOTA::httpGet(HTTPClient *http, int command) {
+    int httpCode = http->GET();
+
+    if(httpCode == HTTP_CODE_OK) 
+        return httpGetStream(http, command);
+    else
+        return httpCode;
+    
+    http->end();
+    return false;
+}
+
+int ESP32GithubOTA::httpGetStream(HTTPClient *http, int command) {
+    WiFiClient *StreamPtr = http->getStreamPtr();
+    return runUpdate(*StreamPtr, http->getSize(), command); 
 }
 
 /**
@@ -83,5 +83,5 @@ int ESP32GithubOTA::runUpdate(Stream& data, size_t size, int command) {
     if(!Update.end())
         return 3;
     
-    return true;
+    return 0;
 }
