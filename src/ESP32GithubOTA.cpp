@@ -9,6 +9,7 @@
  */
 int ESP32GithubOTA::clientGithub(const char *url, int command) {
     HTTPClient http;
+    http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     http.begin(url);
 
     return httpGet(&http, command);
@@ -42,6 +43,7 @@ int ESP32GithubOTA::clientGithub(const char *url, const char *token, int command
     }
 
     HTTPClient http;
+    http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
     http.begin(url);
     http.addHeader("Authorization", authorization);
     
